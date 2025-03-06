@@ -10,6 +10,8 @@ import { TrendingCard } from './components/trending-card'
 import { FollowCard } from './components/follow-card'
 import { SidebarLayout } from './components/sidebar/sidebar-layout'
 
+/*<AuthButtonServer /> */
+
 export default async function Home () {
   const supabase = createServerComponentClient<Database>({ cookies })
   const { data: { session } } = await supabase.auth.getSession()
@@ -40,7 +42,6 @@ export default async function Home () {
         >
           <ComposePost userAvatarUrl={session.user?.user_metadata?.avatar_url} />
           <PostLists posts={posts} />
-          <AuthButtonServer />
         </main>
       </section>
 

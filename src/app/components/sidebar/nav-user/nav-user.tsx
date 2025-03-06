@@ -10,7 +10,7 @@ import {
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
+  AvatarImage
 } from '@/app/components/ui/avatar'
 import {
   DropdownMenu,
@@ -27,6 +27,8 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/app/components/ui/sidebar'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useRouter } from 'next/navigation'
 
 export function NavUser ({
   user
@@ -38,7 +40,13 @@ export function NavUser ({
   }
 }) {
   const { isMobile } = useSidebar()
+  const supabase = createClientComponentClient()
+  const router = useRouter()
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.refresh()
+  }
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -100,8 +108,8 @@ export function NavUser ({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
+            <DropdownMenuItem onClick={handleSignOut}>
+              <LogOut/>
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
